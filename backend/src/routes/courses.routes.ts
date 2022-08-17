@@ -32,7 +32,7 @@ router
       const newCourse = await courseRepository.add(req.body as any);
       res.status(201).json({
         status: "sucessfully added",
-        newCourse: newCourse
+        course: newCourse
       });
     } catch (err: any) {
       defaultErrorHandler(err);
@@ -47,7 +47,7 @@ router
       const updatedCourse = await courseRepository.update(courseToUpdate as any);
       res.status(201).json({
         status: "sucessfully updated",
-        updatedCourse: updatedCourse
+        course: updatedCourse
       });
     } catch (err: any) {
       defaultErrorHandler(err);
@@ -58,10 +58,9 @@ router
       const deletedCourse = await courseRepository._delete(+req.params.id);
       res.status(204).json({
         status: "sucessfully deleted",
-        deletedCourse: deletedCourse
+        course: deletedCourse
       });
     } catch (err: any) {
-      console.log("test");
       defaultErrorHandler(err);
     }
   });

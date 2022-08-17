@@ -15,4 +15,4 @@ app.use("/", router);
 
 app.listen(port, () => {
   console.log(ANSI_COLORS.GREEN,`Backend server started on port ${port}.`);
-})
+});

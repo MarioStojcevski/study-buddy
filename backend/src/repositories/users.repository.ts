@@ -8,8 +8,9 @@ async function findAll(): Promise<any> {
 
 async function findAllAdmins(): Promise<any> {
   return await 
-    pgsql("admin")
-    .select("*");
+    pgsql("admin as a")
+    .select("*")
+    .join("user as u", "a.userid", "u.id");
 }
 
 async function findById(id: number): Promise<any> {
@@ -18,32 +19,38 @@ async function findById(id: number): Promise<any> {
     .where("id", id)
 }
 
-async function add(course: any): Promise<any> {
+async function add(user: any): Promise<any> {
   return await
-    pgsql("course")
+    pgsql("user")
     .insert({
-      name: course.name,
-      points: course.points,
-      description: course.description,
-      price: course.price
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      password: user.password,
+      sex: user.sex,
+      age: user.age
     })
     .returning("*");
 }
 
-async function update(course: any): Promise<any> {
+async function update(user: any): Promise<any> {
   return await
-    pgsql("course")
+    pgsql("user")
+    .where("id", user.id)
     .update({
-      name: course.name,
-      points: course.points,
-      description: course.description,
-      price: course.price
-    });
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      password: user.password,
+      sex: user.sex,
+      age: user.age
+    })
+    .returning("*");
 }
 
 async function _delete(id: number): Promise<any> {
   return await
-    pgsql("course")
+    pgsql("user")
     .where("id", id)
     .delete()
     .returning("*")

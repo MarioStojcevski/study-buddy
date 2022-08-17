@@ -2,37 +2,45 @@ import { pgsql } from "../config/db";
 
 async function findAll(): Promise<any> {
   return await 
-    pgsql("student")
+    pgsql("student as s")
+    .join("view_list_all_users as u", "u.id", "s.userid")
     .select("*");
 }
 
 async function findById(id: number): Promise<any> {
   return await 
-    pgsql("student")
-    .where("id", id)
+  pgsql("student as s")
+  .join("view_list_all_users as u", "u.id", "s.userid")
+  .select("*")
+  .where("s.id", id);
 }
 
-async function add(course: any): Promise<any> {
+async function add(studentUser: any): Promise<any> {
   return await
-    pgsql("course")
-    .insert({
-      name: course.name,
-      points: course.points,
-      description: course.description,
-      price: course.price
-    })
-    .returning("*");
+    pgsql.raw(`call insertstudent(?, ?, ?, ?, ?, ?, ?);`, [
+      studentUser.first_name,
+      studentUser.last_name,
+      studentUser.email,
+      studentUser.password,
+      studentUser.sex,
+      studentUser.age,
+      studentUser.points
+    ]);
 }
 
-async function update(course: any): Promise<any> {
+async function update(studentUser: any): Promise<any> {
   return await
-    pgsql("course")
-    .update({
-      name: course.name,
-      points: course.points,
-      description: course.description,
-      price: course.price
-    });
+    pgsql.raw(`call updatestudent(?, ?, ?, ?, ?, ?, ?, ?, ?);`, [
+      studentUser.studentid,
+      studentUser.userid,
+      studentUser.first_name,
+      studentUser.last_name,
+      studentUser.email,
+      studentUser.password,
+      studentUser.sex,
+      studentUser.age,
+      studentUser.points
+    ]);
 }
 
 async function _delete(id: number): Promise<any> {
