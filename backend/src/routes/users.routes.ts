@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import usersRepository from "../repositories/users.repository";
+import defaultErrorHandler from "../errors/defaultErrorHandler";
 
 const router = Router();
 
@@ -12,35 +13,35 @@ router
         users: users
       });
     } catch(err: any) {
-      console.log(err);
+      defaultErrorHandler(err);
     }
   })
   .get("/:id", async (req: Request, res: Response) => {
     try {
       
     } catch (err: any) {
-      console.log(err);
+      defaultErrorHandler(err);
     }
   })
   .post("/", async (req: Request, res: Response) => {
     try {
 
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   })
   .put("/:id", async (req: Request, res: Response) => {
     try {
 
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   })
   .delete("/:id", async (req: Request, res: Response) => {
     try {
 
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   });
 

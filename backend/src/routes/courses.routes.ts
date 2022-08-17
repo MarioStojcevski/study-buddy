@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import courseRepository from "../repositories/courses.repository";
+import defaultErrorHandler from "../errors/defaultErrorHandler";
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router
         courses: courses
       });
     } catch(err: any) {
-      console.log(err);
+      defaultErrorHandler(err);
     }
   })
   .get("/:id", async (req: Request, res: Response) => {
@@ -23,28 +24,45 @@ router
         course: course
       });
     } catch (err: any) {
-      console.log(err);
+      defaultErrorHandler(err);
     }
   })
   .post("/", async (req: Request, res: Response) => {
     try {
-
+      const newCourse = await courseRepository.add(req.body as any);
+      res.status(201).json({
+        status: "sucessfully added",
+        newCourse: newCourse
+      });
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   })
-  .put("/", async (req: Request, res: Response) => {
+  .put("/:id", async (req: Request, res: Response) => {
     try {
-
+      const courseToUpdate = {
+        id: +req.params.id,
+        ...req.body
+      }
+      const updatedCourse = await courseRepository.update(courseToUpdate as any);
+      res.status(201).json({
+        status: "sucessfully updated",
+        updatedCourse: updatedCourse
+      });
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   })
-  .delete("/", async (req: Request, res: Response) => {
+  .delete("/:id", async (req: Request, res: Response) => {
     try {
-
+      const deletedCourse = await courseRepository._delete(+req.params.id);
+      res.status(204).json({
+        status: "sucessfully deleted",
+        deletedCourse: deletedCourse
+      });
     } catch (err: any) {
-      console.log(err)
+      console.log("test");
+      defaultErrorHandler(err);
     }
   });
 
