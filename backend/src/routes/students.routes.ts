@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import studentsRepository from "../repositories/students.repository";
+import defaultErrorHandler from "../errors/defaultErrorHandler";
 
 const router = Router();
 
@@ -12,35 +13,51 @@ router
         students: students
       });
     } catch(err: any) {
-      console.log(err);
+      defaultErrorHandler(err);
     }
   })
   .get("/:id", async (req: Request, res: Response) => {
     try {
-      
+      const student = await studentsRepository.findById(+req.params.id);
+      res.status(200).json({
+        status: "successfully fetched",
+        student: student
+      });
     } catch (err: any) {
-      console.log(err);
+      defaultErrorHandler(err);
     }
   })
   .post("/", async (req: Request, res: Response) => {
     try {
-
+      const newStudentUser = await studentsRepository.add(req.body as any);
+      res.status(201).json({
+        status: "successfully added",
+        student: newStudentUser
+      });
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   })
   .put("/:id", async (req: Request, res: Response) => {
     try {
-
+      const studentUserToUpdate = {
+        studentid: +req.params.id,
+        ...req.body
+      }
+      const updatedStudentUser = await studentsRepository.update(studentUserToUpdate as any);
+      res.status(201).json({
+        status: "successfully updated",
+        student: updatedStudentUser
+      })
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   })
   .delete("/:id", async (req: Request, res: Response) => {
     try {
 
     } catch (err: any) {
-      console.log(err)
+      defaultErrorHandler(err);
     }
   });
 
