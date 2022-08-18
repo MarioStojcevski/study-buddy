@@ -48,7 +48,7 @@ router
       res.status(201).json({
         status: "successfully updated",
         student: updatedStudentUser
-      })
+      });
     } catch (err: any) {
       defaultErrorHandler(err);
     }
