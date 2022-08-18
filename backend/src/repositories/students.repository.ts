@@ -45,7 +45,7 @@ async function update(studentUser: any): Promise<any> {
 
 async function _delete(id: number): Promise<any> {
   return await
-    pgsql("course")
+    pgsql("student")
     .where("id", id)
     .delete()
     .returning("*")
