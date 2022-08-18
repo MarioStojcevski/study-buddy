@@ -48,14 +48,18 @@ router
       res.status(201).json({
         status: "successfully updated",
         student: updatedStudentUser
-      })
+      });
     } catch (err: any) {
       defaultErrorHandler(err);
     }
   })
   .delete("/:id", async (req: Request, res: Response) => {
     try {
-
+      const deletedUser = await studentsRepository._delete(+req.params.id);
+      res.status(204).json({
+        status: "sucessfully deleted",
+        user: deletedUser
+      });
     } catch (err: any) {
       defaultErrorHandler(err);
     }
