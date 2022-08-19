@@ -1,10 +1,11 @@
 import Course from "../models/course";
 import CourseItem from "./CourseItem";
+import classes from "./CourseList.module.css";
 
 const CourseList: React.FC<{ courses: Course[] }> = (props) => {
   return (
-    <ul>
-      {props.courses.map(c => <CourseItem course={c} />)}
+    <ul className={classes["course-list"]}>
+      {props.courses.map(c => <CourseItem key={c.id} course={c} />)}
     </ul>
   );
 }
