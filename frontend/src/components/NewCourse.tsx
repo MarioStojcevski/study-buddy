@@ -1,13 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import classes from "./NewCourse.module.css";
+import { CoursesContext } from "../store/courses-context";
 
-const NewCourse: React.FC<{
-  onAddCourse: ({}: {
-    name: string,
-    points: number,
-    description: string,
-    price: number}) => void
-  }> = (props) => {
+const NewCourse: React.FC = (props) => {
+  const courseCtx =  useContext(CoursesContext);
+
   const courseNameInputRef = useRef<HTMLInputElement>(null);
   const coursePointsInputRef = useRef<HTMLInputElement>(null);
   const courseDescriptionInputRef = useRef<HTMLInputElement>(null);
@@ -36,7 +33,7 @@ const NewCourse: React.FC<{
       price: +enteredCoursePrice
     }
 
-    props.onAddCourse(courseData);
+    courseCtx.addCourse(courseData);
 
   }
 
