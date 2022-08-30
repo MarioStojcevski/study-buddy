@@ -3,8 +3,11 @@ import { CoursesContext } from "../store/courses-context";
 import classes from "./CourseList.module.css";
 import { useContext } from "react";
 
-const CourseList: React.FC = () => {
+const CourseList: React.FC<{
+  courseList: any[]
+}> = (props) => {
   const coursesCtx = useContext(CoursesContext);
+  console.log(props.courseList)
   
   return (
     <ul className={classes["course-list"]}>
